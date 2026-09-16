@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A personal dashboard displaying real-time clock, personalized greeting, focus widgets, and aesthetic glassmorphic themes.">
-  <title>Personal Hub & Real-Time Clock</title>
+  <meta name="description" content="施閔翎的個人主頁 - 資工系 / NLP 專長，包含技能展示、專案作品集與即時時鐘儀表板。">
+  <title>施閔翎 | 個人專屬空間 & 即時時鐘</title>
   
   <!-- Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Ambient Glow Effects -->
+  <!-- Ambient Glow Background Effects -->
   <div class="ambient-glow glow-top-left" aria-hidden="true"></div>
   <div class="ambient-glow glow-bottom-right" aria-hidden="true"></div>
 
@@ -25,12 +25,12 @@
     <header class="top-nav">
       <div class="brand-badge">
         <span class="brand-dot" aria-hidden="true"></span>
-        <span>Personal Space</span>
+        <span id="navBrandText">施閔翎 的個人空間</span>
       </div>
 
       <div class="nav-actions">
         <!-- 12h/24h toggle -->
-        <button id="formatToggleBtn" class="format-btn" title="Toggle 12/24 Hour format" aria-label="Toggle 12 or 24 hour time format">
+        <button id="formatToggleBtn" class="format-btn" title="切換 12/24 小時制" aria-label="Toggle 12 or 24 hour time format">
           <span id="formatModeText">24H</span>
         </button>
 
@@ -44,53 +44,73 @@
       </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main style="display: flex; flex-direction: column; gap: 2rem;">
+    <main class="main-content">
       
-      <!-- Greeting & Personalized Name Section -->
-      <section class="hero-card" aria-label="Greeting and user profile">
-        <div class="greeting-row">
-          <span id="greetingText" class="greeting-salutation">Hello,</span>
-          <div class="name-container">
-            <h1 id="userNameDisplay" class="user-name-display" title="Click to customize your name" tabindex="0">Friend</h1>
-            <button id="editNameBtn" class="edit-name-btn" title="Edit your name" aria-label="Edit name">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-              </svg>
+      <!-- 👤 1. Profile Hero Section -->
+      <section class="profile-card" aria-label="個人資料 Profile">
+        <div class="profile-layout">
+          <!-- Avatar container -->
+          <div class="avatar-wrapper">
+            <div class="avatar-ring">
+              <img id="profileAvatar" src="assets/avatar.png" alt="個人頭像 Avatar" class="profile-avatar-img">
+            </div>
+            <button id="quickAvatarBtn" class="avatar-edit-badge" title="更換頭像" aria-label="更換頭像">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
             </button>
-            
-            <!-- Inline Edit Form -->
-            <form id="nameEditForm" class="name-edit-form" onsubmit="return false;">
-              <input type="text" id="nameInput" class="name-input" maxlength="28" placeholder="Enter your name" aria-label="Your Name">
-              <button type="submit" id="saveNameBtn" class="save-name-btn">Save</button>
-              <button type="button" id="cancelNameBtn" class="cancel-name-btn">Cancel</button>
-            </form>
+          </div>
+
+          <!-- Profile Details -->
+          <div class="profile-info">
+            <div class="profile-header-row">
+              <div>
+                <div class="greeting-badge">
+                  <span id="greetingText">Good morning,</span>
+                </div>
+                <h1 id="profileNameDisplay" class="profile-name">施閔翎</h1>
+              </div>
+              
+              <!-- Edit Profile Trigger Button -->
+              <button id="openEditModalBtn" class="edit-profile-btn" title="修改個人檔案">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                <span>編輯個人檔案</span>
+              </button>
+            </div>
+
+            <!-- Department & Specialization Badge -->
+            <div class="dept-badge-row">
+              <span class="dept-chip" id="profileDeptDisplay">
+                <span class="chip-icon">🎓</span>
+                <span id="deptText">資工系 · NLP</span>
+              </span>
+              <span class="status-chip">
+                <span class="status-pulse"></span>
+                <span>Active & Coding</span>
+              </span>
+            </div>
+
+            <!-- Bio -->
+            <p id="profileBioDisplay" class="profile-bio">
+              專注於自然語言處理 (NLP)、機器學習與演算法研究，熱衷探索智慧技術與多元應用。
+            </p>
           </div>
         </div>
-        <p class="greeting-subtitle" id="greetingSubtitle">
-          <span>✨</span> Welcome to your daily space. Here is your current time and agenda.
-        </p>
       </section>
 
-      <!-- Live Master Clock Section -->
-      <section class="clock-card" aria-label="Current time and date display">
+      <!-- 🕒 Master Real-Time Clock Section -->
+      <section class="clock-card" aria-label="即時時鐘與日期">
         <div class="clock-status-bar">
           <div class="live-indicator">
             <span class="pulse-circle" aria-hidden="true"></span>
-            <span>Live Time</span>
+            <span>LIVE TIME</span>
           </div>
-          <div class="timezone-pill" id="timezonePill" title="Detected Local Timezone">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <polyline points="12 6 12 12 14 14"></polyline>
-            </svg>
-            <span id="timezoneText">UTC+08:00</span>
+          <div class="timezone-pill" id="timezonePill" title="本地時區">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+            <span id="timezoneText">UTC+08:00 (Asia/Taipei)</span>
           </div>
         </div>
 
         <!-- Big Digital Clock -->
-        <div class="clock-display" aria-live="off">
+        <div class="clock-display">
           <span class="time-main" id="timeMain">00<span class="time-colon">:</span>00</span>
           <div class="time-sub">
             <span class="time-seconds" id="timeSeconds">00</span>
@@ -102,50 +122,77 @@
         <div class="date-display" id="dateDisplay">
           <span class="date-icon" aria-hidden="true">📅</span>
           <span id="dateFullText">Loading date...</span>
-          <span class="day-badge" id="dayOfYearBadge">Day 1</span>
+          <span class="day-badge" id="dayOfYearBadge">Day 259 of 2026</span>
         </div>
       </section>
 
-      <!-- Interactive Widgets Section -->
-      <section class="widgets-grid" aria-label="Personal widgets">
+      <!-- 🛠 2. Skills Section -->
+      <section class="section-container" aria-label="專業技能 Skills">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">🛠</span>
+            <span>專業技能 (Skills)</span>
+          </h2>
+          <span class="section-subtitle">專長領域與程式語言技術棧</span>
+        </div>
+
+        <div class="skills-grid" id="skillsGrid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- 🚀 3. Projects Section -->
+      <section class="section-container" aria-label="精選專案 Projects">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="section-icon">🚀</span>
+            <span>個人專案 (Projects)</span>
+          </h2>
+          <span class="section-subtitle">開源專案與研發成果</span>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- ⚡ Interactive Productivity Widgets -->
+      <section class="widgets-grid" aria-label="小工具組">
         
         <!-- Focus of the Day Widget -->
         <article class="widget-card">
           <div class="widget-header">
-            <h2 class="widget-title">
-              <span>🎯</span> Focus of the Day
-            </h2>
-            <button id="editFocusBtn" class="widget-action-icon" title="Edit focus goal" aria-label="Edit focus goal">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9"></path>
-                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-              </svg>
+            <h3 class="widget-title">
+              <span>🎯</span> 今日焦點 (Focus of the Day)
+            </h3>
+            <button id="editFocusBtn" class="widget-action-icon" title="編輯今日目標" aria-label="編輯目標">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
             </button>
           </div>
           <div class="focus-content">
-            <div id="focusDisplay" class="focus-text" title="Click to edit your daily focus">
-              Make meaningful progress today and stay inspired!
+            <div id="focusDisplay" class="focus-text" title="點擊即可快速編輯目標">
+              今天就取得實質進展，並保持熱忱！
             </div>
             <div id="focusEditBox" class="focus-edit-box">
-              <input type="text" id="focusInput" class="focus-input" placeholder="What is your main priority today?">
-              <button id="focusSaveBtn" class="focus-save-btn">Done</button>
+              <input type="text" id="focusInput" class="focus-input" placeholder="請輸入今日的核心目標...">
+              <button id="focusSaveBtn" class="focus-save-btn">完成</button>
             </div>
             <div class="focus-meta">
-              <span>💡 Tip: Click text or pencil to update anytime</span>
+              <span>💡 提示：點擊文字或鉛筆圖示可隨時更新</span>
             </div>
           </div>
         </article>
 
-        <!-- Quick Launch Shortcuts Widget -->
+        <!-- Quick Launch Shortcuts -->
         <article class="widget-card">
           <div class="widget-header">
-            <h2 class="widget-title">
-              <span>⚡</span> Quick Launch
-            </h2>
+            <h3 class="widget-title">
+              <span>⚡</span> 快速啟動 (Quick Launch)
+            </h3>
             <span class="widget-action-icon" title="Shortcuts">🚀</span>
           </div>
           <div class="quick-links-grid">
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="link-pill" id="linkGithub">
+            <a href="https://github.com/yb-802" target="_blank" rel="noopener noreferrer" class="link-pill" id="linkGithub">
               <div class="link-icon">🐙</div>
               <span>GitHub</span>
             </a>
@@ -164,20 +211,20 @@
           </div>
         </article>
 
-        <!-- Focus Timer / Stopwatch Widget -->
+        <!-- Focus Timer Widget -->
         <article class="widget-card">
           <div class="widget-header">
-            <h2 class="widget-title">
-              <span>⏱️</span> 25-Min Focus Session
-            </h2>
+            <h3 class="widget-title">
+              <span>⏱️</span> 25 分鐘專注會議 (Pomodoro)
+            </h3>
             <span class="widget-action-icon" id="timerStatusIcon">⏳</span>
           </div>
           <div class="timer-container">
             <div class="timer-digits" id="timerDigits">25:00</div>
             <div class="timer-controls">
-              <button id="timerStartBtn" class="timer-btn primary">Start</button>
-              <button id="timerPauseBtn" class="timer-btn" style="display:none;">Pause</button>
-              <button id="timerResetBtn" class="timer-btn">Reset</button>
+              <button id="timerStartBtn" class="timer-btn primary">開始</button>
+              <button id="timerPauseBtn" class="timer-btn" style="display:none;">暫停</button>
+              <button id="timerResetBtn" class="timer-btn">重置</button>
             </div>
           </div>
         </article>
@@ -189,13 +236,91 @@
     <!-- Footer -->
     <footer class="app-footer">
       <div class="footer-credit">
-        <span>Crafted for your personalized workspace</span>
+        <span>施閔翎 · 個人專屬空間 (Personal Hub)</span>
       </div>
       <div>
-        <span id="footerYear">2026</span> • Personal Hub
+        <span id="footerYear">2026</span> • Designed with Glassmorphism
       </div>
     </footer>
 
+  </div>
+
+  <!-- ✏️ 4. Edit Profile Modal (個人檔案編輯彈窗) -->
+  <div id="profileModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">
+          <span>✏️</span> 編輯個人檔案 (Edit Profile)
+        </h2>
+        <button id="closeModalBtn" class="modal-close-btn" aria-label="關閉視窗">✕</button>
+      </div>
+
+      <form id="profileForm" class="modal-form" onsubmit="return false;">
+        
+        <!-- Avatar Change section in modal -->
+        <div class="form-group avatar-form-group">
+          <label class="form-label">個人頭像 (Avatar)</label>
+          <div class="modal-avatar-preview-row">
+            <img id="modalAvatarPreview" src="assets/avatar.png" alt="頭像預覽" class="modal-avatar-preview">
+            <div class="avatar-upload-controls">
+              <label for="avatarFileInput" class="file-upload-btn">
+                <span>📁 上傳新圖片</span>
+                <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+              </label>
+              <input type="url" id="avatarUrlInput" class="form-input" placeholder="或貼上圖片網址 (https://...)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+          <label for="inputProfileName" class="form-label">姓名 (Name)</label>
+          <input type="text" id="inputProfileName" class="form-input" required maxlength="30" placeholder="例如：施閔翎">
+        </div>
+
+        <!-- Dept / Specialization -->
+        <div class="form-group">
+          <label for="inputProfileDept" class="form-label">科系 / 專長 (Department / Specialization)</label>
+          <input type="text" id="inputProfileDept" class="form-input" required maxlength="50" placeholder="例如：資工系 / NLP">
+        </div>
+
+        <!-- Bio -->
+        <div class="form-group">
+          <label for="inputProfileBio" class="form-label">簡短自我介紹 (Bio)</label>
+          <textarea id="inputProfileBio" class="form-textarea" rows="3" placeholder="請輸入一段您的專長、興趣或簡介..."></textarea>
+        </div>
+
+        <!-- Skills list -->
+        <div class="form-group">
+          <label for="inputProfileSkills" class="form-label">專業技能 (Skills - 請用逗號分隔)</label>
+          <input type="text" id="inputProfileSkills" class="form-input" placeholder="例如：Python, C++, Machine Learning, PyTorch, NLP">
+          <small class="form-hint">以半形或全形逗號 ( , ) 分隔不同技能項目</small>
+        </div>
+
+        <!-- Project section -->
+        <div class="form-group">
+          <label class="form-label">專案展示 (Projects)</label>
+          <div class="project-form-card">
+            <div class="form-row">
+              <input type="text" id="inputProjTitle" class="form-input" placeholder="專案名稱 (例如：ai-trashcan)">
+              <input type="url" id="inputProjUrl" class="form-input" placeholder="GitHub 網址 (https://...)">
+            </div>
+            <textarea id="inputProjDesc" class="form-textarea" rows="2" placeholder="專案簡介 (例如：基於機器學習與電腦視覺之智慧垃圾分類辨識系統)"></textarea>
+            <input type="text" id="inputProjTags" class="form-input" placeholder="專案標籤 (例如：Python, Machine Learning, Computer Vision)">
+          </div>
+        </div>
+
+        <!-- Modal Footer Actions -->
+        <div class="modal-actions">
+          <button type="button" id="resetDefaultsBtn" class="btn-text-danger" title="重設為系統預設值">重設為預設值</button>
+          <div class="modal-actions-right">
+            <button type="button" id="cancelModalBtn" class="btn-secondary">取消</button>
+            <button type="submit" id="saveProfileBtn" class="btn-primary">儲存變更</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
   </div>
 
   <script src="app.js"></script>
