@@ -10,7 +10,7 @@
 ---
 
 <p align="center">
-  <img src="preview.png" alt="Personal Space & Real-Time Clock Hub Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+  <img src="assets/preview.png" alt="Personal Space & Real-Time Clock Hub Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
 </p>
 
 ---
@@ -44,6 +44,8 @@
 ## 📁 專案架構 (Project Structure)
 
 ```text
+├── assets/
+│   └── preview.png   # 儀表板畫面預覽截圖
 ├── index.html        # 語意化 HTML5 結構與儀表板卡片
 ├── style.css         # 設計規範系統、CSS 變數、響應式佈局與 4 色主題
 ├── app.js            # 時鐘引擎、問候演算法、即時編輯與本地快取邏輯
