@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A personal dashboard displaying real-time clock, personalized greeting, focus widgets, and aesthetic glassmorphic themes.">
+  <title>Personal Hub & Real-Time Clock</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Effects -->
+  <div class="ambient-glow glow-top-left" aria-hidden="true"></div>
+  <div class="ambient-glow glow-bottom-right" aria-hidden="true"></div>
+
+  <div class="app-container">
+    
+    <!-- Top Bar: Brand, Format Switcher & Theme Selector -->
+    <header class="top-nav">
+      <div class="brand-badge">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Personal Space</span>
+      </div>
+
+      <div class="nav-actions">
+        <!-- 12h/24h toggle -->
+        <button id="formatToggleBtn" class="format-btn" title="Toggle 12/24 Hour format" aria-label="Toggle 12 or 24 hour time format">
+          <span id="formatModeText">24H</span>
+        </button>
+
+        <!-- Theme Switcher -->
+        <div class="theme-selector" role="group" aria-label="Theme selector">
+          <button class="theme-pill active" data-set-theme="aurora" title="Aurora Indigo Theme" aria-label="Aurora Indigo theme"></button>
+          <button class="theme-pill" data-set-theme="cyber" title="Cyber Magenta Theme" aria-label="Cyber Magenta theme"></button>
+          <button class="theme-pill" data-set-theme="sunset" title="Sunset Amber Theme" aria-label="Sunset Amber theme"></button>
+          <button class="theme-pill" data-set-theme="emerald" title="Midnight Emerald Theme" aria-label="Midnight Emerald theme"></button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main style="display: flex; flex-direction: column; gap: 2rem;">
+      
+      <!-- Greeting & Personalized Name Section -->
+      <section class="hero-card" aria-label="Greeting and user profile">
+        <div class="greeting-row">
+          <span id="greetingText" class="greeting-salutation">Hello,</span>
+          <div class="name-container">
+            <h1 id="userNameDisplay" class="user-name-display" title="Click to customize your name" tabindex="0">Friend</h1>
+            <button id="editNameBtn" class="edit-name-btn" title="Edit your name" aria-label="Edit name">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </button>
+            
+            <!-- Inline Edit Form -->
+            <form id="nameEditForm" class="name-edit-form" onsubmit="return false;">
+              <input type="text" id="nameInput" class="name-input" maxlength="28" placeholder="Enter your name" aria-label="Your Name">
+              <button type="submit" id="saveNameBtn" class="save-name-btn">Save</button>
+              <button type="button" id="cancelNameBtn" class="cancel-name-btn">Cancel</button>
+            </form>
+          </div>
+        </div>
+        <p class="greeting-subtitle" id="greetingSubtitle">
+          <span>✨</span> Welcome to your daily space. Here is your current time and agenda.
+        </p>
+      </section>
+
+      <!-- Live Master Clock Section -->
+      <section class="clock-card" aria-label="Current time and date display">
+        <div class="clock-status-bar">
+          <div class="live-indicator">
+            <span class="pulse-circle" aria-hidden="true"></span>
+            <span>Live Time</span>
+          </div>
+          <div class="timezone-pill" id="timezonePill" title="Detected Local Timezone">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 14 14"></polyline>
+            </svg>
+            <span id="timezoneText">UTC+08:00</span>
+          </div>
+        </div>
+
+        <!-- Big Digital Clock -->
+        <div class="clock-display" aria-live="off">
+          <span class="time-main" id="timeMain">00<span class="time-colon">:</span>00</span>
+          <div class="time-sub">
+            <span class="time-seconds" id="timeSeconds">00</span>
+            <span class="time-period" id="timePeriod"></span>
+          </div>
+        </div>
+
+        <!-- Date Display -->
+        <div class="date-display" id="dateDisplay">
+          <span class="date-icon" aria-hidden="true">📅</span>
+          <span id="dateFullText">Loading date...</span>
+          <span class="day-badge" id="dayOfYearBadge">Day 1</span>
+        </div>
+      </section>
+
+      <!-- Interactive Widgets Section -->
+      <section class="widgets-grid" aria-label="Personal widgets">
+        
+        <!-- Focus of the Day Widget -->
+        <article class="widget-card">
+          <div class="widget-header">
+            <h2 class="widget-title">
+              <span>🎯</span> Focus of the Day
+            </h2>
+            <button id="editFocusBtn" class="widget-action-icon" title="Edit focus goal" aria-label="Edit focus goal">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+            </button>
+          </div>
+          <div class="focus-content">
+            <div id="focusDisplay" class="focus-text" title="Click to edit your daily focus">
+              Make meaningful progress today and stay inspired!
+            </div>
+            <div id="focusEditBox" class="focus-edit-box">
+              <input type="text" id="focusInput" class="focus-input" placeholder="What is your main priority today?">
+              <button id="focusSaveBtn" class="focus-save-btn">Done</button>
+            </div>
+            <div class="focus-meta">
+              <span>💡 Tip: Click text or pencil to update anytime</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Quick Launch Shortcuts Widget -->
+        <article class="widget-card">
+          <div class="widget-header">
+            <h2 class="widget-title">
+              <span>⚡</span> Quick Launch
+            </h2>
+            <span class="widget-action-icon" title="Shortcuts">🚀</span>
+          </div>
+          <div class="quick-links-grid">
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="link-pill" id="linkGithub">
+              <div class="link-icon">🐙</div>
+              <span>GitHub</span>
+            </a>
+            <a href="https://google.com" target="_blank" rel="noopener noreferrer" class="link-pill" id="linkGoogle">
+              <div class="link-icon">🔍</div>
+              <span>Google</span>
+            </a>
+            <a href="https://notion.so" target="_blank" rel="noopener noreferrer" class="link-pill" id="linkNotion">
+              <div class="link-icon">📝</div>
+              <span>Notion</span>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="link-pill" id="linkYoutube">
+              <div class="link-icon">▶️</div>
+              <span>YouTube</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Focus Timer / Stopwatch Widget -->
+        <article class="widget-card">
+          <div class="widget-header">
+            <h2 class="widget-title">
+              <span>⏱️</span> 25-Min Focus Session
+            </h2>
+            <span class="widget-action-icon" id="timerStatusIcon">⏳</span>
+          </div>
+          <div class="timer-container">
+            <div class="timer-digits" id="timerDigits">25:00</div>
+            <div class="timer-controls">
+              <button id="timerStartBtn" class="timer-btn primary">Start</button>
+              <button id="timerPauseBtn" class="timer-btn" style="display:none;">Pause</button>
+              <button id="timerResetBtn" class="timer-btn">Reset</button>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-credit">
+        <span>Crafted for your personalized workspace</span>
+      </div>
+      <div>
+        <span id="footerYear">2026</span> • Personal Hub
+      </div>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
