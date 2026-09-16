@@ -9,6 +9,12 @@
 
 ---
 
+<p align="center">
+  <img src="preview.png" alt="Personal Space & Real-Time Clock Hub Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);" />
+</p>
+
+---
+
 ## 🌟 主要功能亮點 (Key Features)
 
 ### 1. 🕒 高精度即時數位時鐘 (High-Precision Real-Time Clock)
